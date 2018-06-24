@@ -5,9 +5,13 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
+/**
+ * 
+ * @author James Jayaputera (james.jayaputera@gmail.com)
+ *
+ */
 @Entity
 @Table(name="passport")
 public class PassportEntity {

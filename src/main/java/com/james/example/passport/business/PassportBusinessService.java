@@ -12,6 +12,11 @@ import com.james.example.passport.model.entity.PassportEntity;
 import com.james.example.passport.model.repository.PassportEntityRepository;
 import com.james.example.passport.web.Passport;
 
+/**
+ * 
+ * @author James Jayaputera (james.jayaputera@gmail.com)
+ *
+ */
 @Service
 public class PassportBusinessService {
 	private PassportEntityRepository passportRepository;
