@@ -1,0 +1,13 @@
+input, .font-black {
+	color: black;
+}
+.buttonMarginTop {
+	margin-top:20px;
+}
+table {
+	border-spacing: 10px;
+	border-collapse: separate;
+}
+.hright {
+	text-align: right;
+}

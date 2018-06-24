@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="page-header">
+			<h1>Add New Passport Details</h1>
+		</div>
+
+		<form action="#" th:action="@{/passport/create}"
+			th:object="${passport}" method="POST" enctype="multipart/form-data">
+			<table width="100%">
+				<tr>
+					<td width="17%">Passport Number</td>
+					<td width="17%"><input type="text" th:field="*{docNo}" /></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('docNo')}">
+					<td th:if="${#fields.hasErrors('docNo')}" th:errors="*{docNo}"
+						style="color: red;"></td>
+				</tr>
+				<tr>
+					<td>First Name</td>
+					<td><input type="text" th:field="*{firstName}" /></td>
+					<td width="15%">Last Name</td>
+					<td width="20%"><input type="text" th:field="*{lastName}" /></td>
+					<td>Sex</td>
+					<td><select th:field="*{sex}" class="font-black">
+							<option class="font-black" value="Male">Male</option>
+							<option class="font-black" value="Female">Female</option></select></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('firstName') or #fields.hasErrors('lastName')}">
+					<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+						style="color: red;"></td>
+					<td th:if="${not #fields.hasErrors('firstName')}"></td>
+					<td th:if="${#fields.hasErrors('firstName') or #fields.hasErrors('lastName')}"></td>	
+					<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+						style="color: red;"></td>
+				</tr>
+				<tr>
+					<td>Place of Birth</td>
+					<td><input type="text" th:field="*{placeOfBirth}" /></td>
+					<td>Date of Birth</td>
+					<td><input th:field="*{dateOfBirth}" type="text"
+						id="dateOfBirth"></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('placeOfBirth') or #fields.hasErrors('dateOfBirth')}">
+					<td th:if="${#fields.hasErrors('placeOfBirth')}" th:errors="*{placeOfBirth}"
+						style="color: red;"></td>
+					<td th:if="${not #fields.hasErrors('placeOfBirth')}"></td>
+					<td th:if="${#fields.hasErrors('placeOfBirth') or #fields.hasErrors('dateOfBirth')}"></td>	
+					<td th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"
+						style="color: red;"></td>
+				</tr>
+
+				<tr>
+					<td>Nationality</td>
+					<td><input type="text" th:field="*{nationality}" /></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('nationality')}">
+				<td th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"
+						style="color: red;"></td>										
+				</tr>
+				<tr>
+					<td>Date of Issue</td>
+					<td><input th:field="*{dateOfIssue}" type="text"
+						id="dateOfIssue"></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('dateOfIssue')}">
+					<td th:if="${#fields.hasErrors('dateOfIssue')}" th:errors="*{dateOfIssue}"
+						style="color: red;"></td>					
+				</tr>
+				<tr>
+					<td>Date of Expiry</td>
+					<td><input th:field="*{dateOfExpiry}" type="text"
+						id="dateOfExpiry"></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('dateOfExpiry')}">
+					<td th:if="${#fields.hasErrors('dateOfExpiry')}" th:errors="*{dateOfExpiry}"
+						style="color: red;"></td>					
+				</tr>
+				<tr>
+					<td>Authority</td>
+					<td><input type="text" th:field="*{authority}" /></td>
+				</tr>
+				<tr th:if="${#fields.hasErrors('authority')}">
+					<td th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}"
+						style="color: red;"></td>										
+				</tr>
+				<tr>
+					<td>Image passport to upload</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="file" name="file" accept="image/*"
+						style="background-color: white;"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="hright"><button type="submit" class="font-black">Submit</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<ul>
+			<li th:each="e : ${#fields.detailedErrors()}"
+				th:class="${e.global}? globalerr : fielderr"><span
+				th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+				<span th:text="${e.message}">The error message</span></li>
+		</ul>
+		<div style="color: red;">
+			<p th:text="${message}" />
+		</div>
+	</div>
+</body>
+</html>
