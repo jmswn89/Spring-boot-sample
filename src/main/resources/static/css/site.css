@@ -6,8 +6,14 @@ input, .font-black {
 }
 table {
 	border-spacing: 10px;
-	border-collapse: separate;
+}
+.tblText {
+	vertical-align: center;
 }
 .hright {
 	text-align: right;
+}
+
+.thick {
+    font-weight: bold;
 }

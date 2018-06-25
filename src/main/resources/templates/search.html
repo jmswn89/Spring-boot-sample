@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="page-header">
+			<h1>Lookup Existing Passport Details</h1>
+		</div>
+		<!--  TODO: Add a field to search based on a given document number.
+		            May need to create a search object which will interact with
+		            the UI.
+		            Replace all input tags with value and fetch value from
+		            passport object passed from backend. Add <img> tag and passing
+		            document number to the image url. 
+		-->
+		<form action="#" th:action="@{/passport/search}" method="POST">
+
+			<table>
+			<tr>
+			<td>Passport Number: <input type="text" name="keyword"/>
+			<button type="submit" class="font-black">Submit</button>
+			</td>
+			</tr>
+			<tr th:if="${errMsg}"> 
+			<td style="color:red;"><p th:text="${errMsg}"/>
+			</td>
+			</tr>
+			</table>
+		</form>
+		<table width="100%" th:if="${errMsg == ''}">
+			<tr>
+				<td width="20%"><p class="thick">Passport Number</p></td>
+				<td><p th:text="${passport.docNo}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">First Name</p></td>
+				<td><p th:text="${passport.firstName}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Last Name</p></td>
+				<td><p th:text="${passport.lastName}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Sex</p></td>
+				<td><p th:text="${passport.sex}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Place of Birth</p></td>
+				<td><p th:text="${passport.placeOfBirth}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Date of Birth</p></td>
+				<td><p th:text="${passport.dateOfBirth}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Nationality</p></td>
+				<td><p th:text="${passport.nationality}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Date of Issue</p></td>
+				<td><p th:text="${passport.dateOfIssue}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Date of Expiry</p></td>
+				<td><p th:text="${passport.dateOfExpiry}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Authority</p></td>
+				<td><p th:text="${passport.authority}"/></td>
+			</tr>
+			<tr>
+				<td><p class="thick">Passport image</p></td>
+				<td><img th:attr="src=@{${passport.image}}" /></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

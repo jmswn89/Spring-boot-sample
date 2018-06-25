@@ -53,7 +53,7 @@ public class Passport {
 	@Size(min=8, max=10)
 	private String dateOfExpiry;
 	
-	private byte[] image;
+	private String image;
 
 	private String imageFilename;
 	
@@ -63,7 +63,7 @@ public class Passport {
 	public Passport(@NotNull String docNo, @NotNull String firstName, @NotNull String lastName,
 			@NotNull String placeOfBirth, @NotNull String nationality, @NotNull String sex, @NotNull String authority,
 			@NotNull String dateOfBirth, @NotNull String dateOfIssue, @NotNull String dateOfExpiry,
-			@NotNull byte[] image, @NotNull String imageFilename, @NotNull String imageContentType) {
+			@NotNull String image, @NotNull String imageFilename, @NotNull String imageContentType) {
 		super();
 		this.docNo = docNo;
 		this.firstName = firstName;
@@ -164,11 +164,11 @@ public class Passport {
 		this.dateOfExpiry = dateOfExpiry;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 

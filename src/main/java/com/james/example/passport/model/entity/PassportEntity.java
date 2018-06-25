@@ -53,15 +53,15 @@ public class PassportEntity {
 	@Column
 	private String imageContentType;
 	
-	@Column
-	private byte[] image;
+	@Column(length=10485760)
+	private String image;
 
 	public PassportEntity() {
 	}
 	
 	public PassportEntity(String docNo, String firstName, String lastName, String placeOfBirth, String nationality,
 			String sex, String authority, Date dateOfBirth, Date dateOfIssue, Date dateOfExpiry, String imageFilename,
-			byte[] image, String imageContentType) {
+			String image, String imageContentType) {
 		this.docNo = docNo;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -157,11 +157,11 @@ public class PassportEntity {
 		this.dateOfExpiry = dateOfExpiry;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 	

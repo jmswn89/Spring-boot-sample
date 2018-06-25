@@ -1,6 +1,7 @@
 package com.james.example.passport.web;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.james.example.passport.business.PassportBusinessService;
+import com.james.example.passport.model.entity.PassportEntity;
 
 /**
  * 
@@ -64,8 +66,8 @@ public class PassportController {
 			model.addAttribute("message", "Passport Number " + passport.getDocNo() + " exists in database.");
 			return "create";
 		}
-
-		passport.setImage(content);
+		String imgBase64 = Base64.getEncoder().encodeToString(content);
+		passport.setImage("data:"+file.getContentType() + ";base64," + imgBase64);
 		passport.setImageContentType(file.getContentType());				
 		passport.setImageFilename(file.getOriginalFilename());
 		this.passportService.create(passport);
@@ -73,5 +75,32 @@ public class PassportController {
 		model.addAttribute("passport", new Passport());
 		model.addAttribute("message", "Passport Number " + passport.getDocNo() + " saved.");
 		return "create";
+	}
+	
+	@RequestMapping(value="/passport/search", method=RequestMethod.GET)
+	public String search(Model model) {
+		return "search";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/passport/search")
+	public String searchPassport(@RequestParam("keyword") String keyword, @ModelAttribute Passport passport,
+			                     BindingResult result, Model model) throws IOException {
+		String kw = keyword.trim();
+		System.out.println("Searching for passport# " + kw);
+		if (kw.isEmpty()) {
+			model.addAttribute("errMsg", "Passport number has not been entered.");
+			return "search";
+		}
+
+		Passport p = passportService.findByPassportDocNo(kw);
+		if (p == null) {
+			model.addAttribute("errMsg", "Passport number cannot be found.");
+		}
+		else {
+			model.addAttribute("errMsg", "");
+			model.addAttribute("passport", p);			
+		}
+
+		return "search";
 	}
 }
