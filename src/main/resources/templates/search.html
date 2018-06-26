@@ -14,18 +14,13 @@
 		<div class="page-header">
 			<h1>Lookup Existing Passport Details</h1>
 		</div>
-		<!--  TODO: Add a field to search based on a given document number.
-		            May need to create a search object which will interact with
-		            the UI.
-		            Replace all input tags with value and fetch value from
-		            passport object passed from backend. Add <img> tag and passing
-		            document number to the image url. 
-		-->
+
 		<form action="#" th:action="@{/passport/search}" method="POST">
 
 			<table>
 			<tr>
 			<td>Passport Number: <input type="text" name="keyword"/>
+			<input type="hidden" name="page" value="search"/>
 			<button type="submit" class="font-black">Submit</button>
 			</td>
 			</tr>

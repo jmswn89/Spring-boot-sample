@@ -8,6 +8,21 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="css/site.css" />
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+	$(function() {
+		$("#dateOfBirth").datepicker({
+			  dateFormat: "dd/mm/yy"
+		});
+		$("#dateOfIssue").datepicker({
+			  dateFormat: "dd/mm/yy"
+		});
+		$("#dateOfExpiry").datepicker({
+			  dateFormat: "dd/mm/yy"
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="container">
@@ -20,16 +35,28 @@
 				   store it again. The end-point should be different than create passport.
 				   image should be displayed and give an option to upload different image.
 		 -->
-		<form action="#" th:action="@{/passport/create}"
+		 <form action="#" th:action="@{/passport/search}" method="POST">
+			<table>
+			<tr>
+			<td>Passport Number: <input type="text" name="keyword"/>
+			<input type="hidden" name="page" value="update"/>
+			<button type="submit" class="font-black">Submit</button>
+			</td>
+			</tr>
+			<tr th:if="${errMsg}"> 
+			<td style="color:red;"><p th:text="${errMsg}"/>
+			</td>
+			</tr>
+			</table>
+		</form>
+		<div th:if="${errMsg == ''}">
+		<form action="#" th:action="@{/passport/update}"
 			th:object="${passport}" method="POST" enctype="multipart/form-data">
 			<table width="100%">
 				<tr>
 					<td width="17%">Passport Number</td>
-					<td width="17%"><input type="text" th:field="*{docNo}" /></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('docNo')}">
-					<td th:if="${#fields.hasErrors('docNo')}" th:errors="*{docNo}"
-						style="color: red;"></td>
+					<td width="17%"><p th:text="*{docNo}"/>
+					<input type="hidden" th:field="*{docNo}"></td>
 				</tr>
 				<tr>
 					<td>First Name</td>
@@ -101,7 +128,7 @@
 				</tr>
 				<tr>
 					<td>Image passport to upload</td>
-					<td></td>
+					<td><img th:attr="src=*{image}" /></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -115,12 +142,8 @@
 				</tr>
 			</table>
 		</form>
-		<ul>
-			<li th:each="e : ${#fields.detailedErrors()}"
-				th:class="${e.global}? globalerr : fielderr"><span
-				th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
-				<span th:text="${e.message}">The error message</span></li>
-		</ul>
+
+		</div>
 		<div style="color: red;">
 			<p th:text="${message}" />
 		</div>

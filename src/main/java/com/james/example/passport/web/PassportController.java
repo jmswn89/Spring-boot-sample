@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -83,13 +85,18 @@ public class PassportController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/passport/search")
-	public String searchPassport(@RequestParam("keyword") String keyword, @ModelAttribute Passport passport,
+	public String searchPassport(@RequestParam("keyword") String keyword, 
+			@RequestParam("page") String page, @ModelAttribute Passport passport,
 			                     BindingResult result, Model model) throws IOException {
 		String kw = keyword.trim();
+		if (page == null || page.trim().isEmpty()) {
+			model.addAttribute("errMsg", "Page url callback does not exist.");
+			return "search";
+		}
 		System.out.println("Searching for passport# " + kw);
 		if (kw.isEmpty()) {
 			model.addAttribute("errMsg", "Passport number has not been entered.");
-			return "search";
+			return page;
 		}
 
 		Passport p = passportService.findByPassportDocNo(kw);
@@ -101,6 +108,46 @@ public class PassportController {
 			model.addAttribute("passport", p);			
 		}
 
-		return "search";
+		return page;
+	}
+		
+	@RequestMapping(value="/passport/update", method=RequestMethod.GET)
+	public String update(Model model) {
+		return "update";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/passport/update")
+	public String updatePassport(@RequestParam("file") MultipartFile file, @Valid @ModelAttribute Passport passport,
+			                     BindingResult result, Model model) throws IOException {
+		if (result.hasErrors()) { 
+			System.out.println("Field has errors ");
+			for (FieldError fe : result.getFieldErrors()) {
+				System.out.println(fe.getField());
+			}
+			return "update";
+		}
+
+		if (passport.getDocNo().trim().isEmpty()) {
+			result.addError(new ObjectError("docNo", "Passport number cannot be empty."));
+			return "update";
+		}
+
+		if (!file.getOriginalFilename().isEmpty()) {
+			byte[] content = file.getBytes();
+			if (content.length == 0) {
+				model.addAttribute("message", "Image file size is zero.");
+				return "update";
+			}
+			String imgBase64 = Base64.getEncoder().encodeToString(content);
+			passport.setImage("data:"+file.getContentType() + ";base64," + imgBase64);
+			passport.setImageContentType(file.getContentType());				
+			passport.setImageFilename(file.getOriginalFilename());
+		}
+
+		this.passportService.create(passport);
+		System.out.println("Passport updated.");
+		model.addAttribute("passport", new Passport());
+		model.addAttribute("message", "Passport Number " + passport.getDocNo() + " updated.");
+		return "update";
 	}
 }
