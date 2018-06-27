@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.james.example.passport.business.PassportBusinessService;
-import com.james.example.passport.model.entity.PassportEntity;
 
 /**
  * 
@@ -149,5 +148,32 @@ public class PassportController {
 		model.addAttribute("passport", new Passport());
 		model.addAttribute("message", "Passport Number " + passport.getDocNo() + " updated.");
 		return "update";
+	}
+	
+	@RequestMapping(value="/passport/delete", method=RequestMethod.GET)
+	public String delete(Model model) {
+		return "delete";
+	}
+
+	@RequestMapping(method=RequestMethod.POST, value="/passport/delete")
+	public String deletePassport(@RequestParam("docNo") String docNo, @ModelAttribute Passport passport,
+			                     BindingResult result, Model model) throws IOException {
+		String kw = docNo.trim();
+		System.out.println("Searching for passport# " + kw);
+		if (kw.isEmpty()) {
+			model.addAttribute("errMsg", "Passport number has not been entered.");
+			return "delete";
+		}
+
+		Passport p = passportService.findByPassportDocNo(kw);
+		if (p == null) {
+			model.addAttribute("errMsg", "Passport # " + kw + " cannot be found.");
+		}
+		else {
+			this.passportService.delete(kw);
+			model.addAttribute("message", "Passport # " + kw + " deleted.");
+		}
+
+		return "delete";
 	}
 }

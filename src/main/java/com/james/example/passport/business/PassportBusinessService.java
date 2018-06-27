@@ -60,6 +60,10 @@ public class PassportBusinessService {
 		return p;		
 	}
 	
+	public void delete(String id) {
+		this.passportRepository.deleteById(id);
+	}
+
 	private Date createDateFromDateString(String dateString){
         Date date = null;
         if (null != dateString) {
