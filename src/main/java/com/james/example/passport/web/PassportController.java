@@ -52,13 +52,13 @@ public class PassportController {
 		}
 
 		if (file.getOriginalFilename().isEmpty()) {
-			model.addAttribute("message", "Image file is not given.");
+			model.addAttribute("uploadErr", "Image file not given.");
 			return "create";
 		}
 
 		byte[] content = file.getBytes();
 		if (content.length == 0) {
-			model.addAttribute("message", "Image file size is zero.");
+			model.addAttribute("uploadErr", "Image file size is zero.");
 			return "create";
 		}
 
@@ -134,13 +134,17 @@ public class PassportController {
 		if (!file.getOriginalFilename().isEmpty()) {
 			byte[] content = file.getBytes();
 			if (content.length == 0) {
-				model.addAttribute("message", "Image file size is zero.");
+				model.addAttribute("uploadErr", "Image file size is zero.");
 				return "update";
 			}
 			String imgBase64 = Base64.getEncoder().encodeToString(content);
 			passport.setImage("data:"+file.getContentType() + ";base64," + imgBase64);
 			passport.setImageContentType(file.getContentType());				
 			passport.setImageFilename(file.getOriginalFilename());
+		}
+		else {
+			model.addAttribute("uploadErr", "Image file not selected.");
+			return "update";
 		}
 
 		this.passportService.create(passport);

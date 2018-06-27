@@ -119,13 +119,16 @@
 						style="background-color: white;"></td>
 				</tr>
 				<tr>
+					<td	style="color: red;"><p th:text="(${uploadErr} ? ${uploadErr}:'')"></td>										
+				</tr>				
+				<tr>
 					<td></td>
 					<td class="hright"><button type="submit" class="font-black">Submit</button>
 					</td>
 				</tr>
 			</table>
 		</form>
-		<div style="color: red;">
+		<div style="color: green;">
 			<p th:text="${message}" />
 		</div>
 	</div>

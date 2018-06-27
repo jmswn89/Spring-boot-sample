@@ -49,7 +49,7 @@
 			</tr>
 			</table>
 		</form>
-		<div th:if="${errMsg == ''}">
+		<div th:if="${errMsg == '' or uploadErr != null}">
 		<form action="#" th:action="@{/passport/update}"
 			th:object="${passport}" method="POST" enctype="multipart/form-data">
 			<table width="100%">
@@ -128,13 +128,16 @@
 				</tr>
 				<tr>
 					<td>Image passport to upload</td>
-					<td><img th:attr="src=*{image}" /></td>
+					<td><img th:attr="src=*{image}" /><input type="hidden" th:field="*{image}"/> </td>
 				</tr>
 				<tr>
 					<td></td>
 					<td><input type="file" name="file" accept="image/*"
 						style="background-color: white;"></td>
 				</tr>
+				<tr>
+					<td	style="color: red;"><p th:text="(${uploadErr} ? ${uploadErr}:'')"></td>										
+				</tr>				
 				<tr>
 					<td></td>
 					<td class="hright"><button type="submit" class="font-black">Submit</button>
@@ -144,7 +147,7 @@
 		</form>
 
 		</div>
-		<div style="color: red;">
+		<div style="color: green;">
 			<p th:text="${message}" />
 		</div>
 	</div>
