@@ -71,7 +71,14 @@ public class PassportController {
 		passport.setImage("data:"+file.getContentType() + ";base64," + imgBase64);
 		passport.setImageContentType(file.getContentType());				
 		passport.setImageFilename(file.getOriginalFilename());
-		this.passportService.create(passport);
+		try {
+			this.passportService.create(passport);
+		}
+		catch (IllegalArgumentException ex) {
+			model.addAttribute("errMsg", ex.getMessage());
+			return "create";
+		}
+
 		System.out.println("Passport created");
 		model.addAttribute("passport", new Passport());
 		model.addAttribute("message", "Passport Number " + passport.getDocNo() + " saved.");
@@ -147,7 +154,14 @@ public class PassportController {
 			return "update";
 		}
 
-		this.passportService.create(passport);
+		try {
+			this.passportService.create(passport);
+		}
+		catch (IllegalArgumentException ex) {
+			model.addAttribute("errMsg2", ex.getMessage());
+			return "update";
+		}
+
 		System.out.println("Passport updated.");
 		model.addAttribute("passport", new Passport());
 		model.addAttribute("message", "Passport Number " + passport.getDocNo() + " updated.");

@@ -13,13 +13,13 @@
 <script>
 	$(function() {
 		$("#dateOfBirth").datepicker({
-			  dateFormat: "dd/mm/yy"
+			dateFormat : "dd/mm/yy"
 		});
 		$("#dateOfIssue").datepicker({
-			  dateFormat: "dd/mm/yy"
+			dateFormat : "dd/mm/yy"
 		});
 		$("#dateOfExpiry").datepicker({
-			  dateFormat: "dd/mm/yy"
+			dateFormat : "dd/mm/yy"
 		});
 	});
 </script>
@@ -35,120 +35,128 @@
 				   store it again. The end-point should be different than create passport.
 				   image should be displayed and give an option to upload different image.
 		 -->
-		 <form action="#" th:action="@{/passport/search}" method="POST">
+		<form action="#" th:action="@{/passport/search}" method="POST">
 			<table>
-			<tr>
-			<td>Passport Number: <input type="text" name="keyword"/>
-			<input type="hidden" name="page" value="update"/>
-			<button type="submit" class="font-black">Submit</button>
-			</td>
-			</tr>
-			<tr th:if="${errMsg}"> 
-			<td style="color:red;"><p th:text="${errMsg}"/>
-			</td>
-			</tr>
-			</table>
-		</form>
-		<div th:if="${errMsg == '' or uploadErr != null}">
-		<form action="#" th:action="@{/passport/update}"
-			th:object="${passport}" method="POST" enctype="multipart/form-data">
-			<table width="100%">
 				<tr>
-					<td width="17%">Passport Number</td>
-					<td width="17%"><p th:text="*{docNo}"/>
-					<input type="hidden" th:field="*{docNo}"></td>
-				</tr>
-				<tr>
-					<td>First Name</td>
-					<td><input type="text" th:field="*{firstName}" /></td>
-					<td width="15%">Last Name</td>
-					<td width="20%"><input type="text" th:field="*{lastName}" /></td>
-					<td>Sex</td>
-					<td><select th:field="*{sex}" class="font-black">
-							<option class="font-black" value="Male">Male</option>
-							<option class="font-black" value="Female">Female</option></select></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('firstName') or #fields.hasErrors('lastName')}">
-					<td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-						style="color: red;"></td>
-					<td th:if="${not #fields.hasErrors('firstName')}"></td>
-					<td th:if="${#fields.hasErrors('firstName') or #fields.hasErrors('lastName')}"></td>	
-					<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-						style="color: red;"></td>
-				</tr>
-				<tr>
-					<td>Place of Birth</td>
-					<td><input type="text" th:field="*{placeOfBirth}" /></td>
-					<td>Date of Birth</td>
-					<td><input th:field="*{dateOfBirth}" type="text"
-						id="dateOfBirth"></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('placeOfBirth') or #fields.hasErrors('dateOfBirth')}">
-					<td th:if="${#fields.hasErrors('placeOfBirth')}" th:errors="*{placeOfBirth}"
-						style="color: red;"></td>
-					<td th:if="${not #fields.hasErrors('placeOfBirth')}"></td>
-					<td th:if="${#fields.hasErrors('placeOfBirth') or #fields.hasErrors('dateOfBirth')}"></td>	
-					<td th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"
-						style="color: red;"></td>
-				</tr>
-
-				<tr>
-					<td>Nationality</td>
-					<td><input type="text" th:field="*{nationality}" /></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('nationality')}">
-				<td th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}"
-						style="color: red;"></td>										
-				</tr>
-				<tr>
-					<td>Date of Issue</td>
-					<td><input th:field="*{dateOfIssue}" type="text"
-						id="dateOfIssue"></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('dateOfIssue')}">
-					<td th:if="${#fields.hasErrors('dateOfIssue')}" th:errors="*{dateOfIssue}"
-						style="color: red;"></td>					
-				</tr>
-				<tr>
-					<td>Date of Expiry</td>
-					<td><input th:field="*{dateOfExpiry}" type="text"
-						id="dateOfExpiry"></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('dateOfExpiry')}">
-					<td th:if="${#fields.hasErrors('dateOfExpiry')}" th:errors="*{dateOfExpiry}"
-						style="color: red;"></td>					
-				</tr>
-				<tr>
-					<td>Authority</td>
-					<td><input type="text" th:field="*{authority}" /></td>
-				</tr>
-				<tr th:if="${#fields.hasErrors('authority')}">
-					<td th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}"
-						style="color: red;"></td>										
-				</tr>
-				<tr>
-					<td>Image passport to upload</td>
-					<td><img th:attr="src=*{image}" /><input type="hidden" th:field="*{image}"/> </td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="file" name="file" accept="image/*"
-						style="background-color: white;"></td>
-				</tr>
-				<tr>
-					<td	style="color: red;"><p th:text="(${uploadErr} ? ${uploadErr}:'')"></td>										
-				</tr>				
-				<tr>
-					<td></td>
-					<td class="hright"><button type="submit" class="font-black">Submit</button>
+					<td>Passport Number: <input type="text" name="keyword" /> <input
+						type="hidden" name="page" value="update" />
+						<button type="submit" class="font-black">Submit</button>
 					</td>
 				</tr>
+				<tr th:if="${errMsg}">
+					<td style="color: red;"><p th:text="${errMsg}" /></td>
+				</tr>
 			</table>
 		</form>
+		<div th:if="${errMsg == '' or uploadErr != null or errMsg2 != null}">
+			<form action="#" th:action="@{/passport/update}"
+				th:object="${passport}" method="POST" enctype="multipart/form-data">
+				<table width="100%">
+					<tr>
+						<td width="17%">Passport Number</td>
+						<td width="17%"><p th:text="*{docNo}" /> <input type="hidden"
+							th:field="*{docNo}"></td>
+					</tr>
+					<tr>
+						<td>First Name</td>
+						<td><input type="text" th:field="*{firstName}" /></td>
+						<td width="15%">Last Name</td>
+						<td width="20%"><input type="text" th:field="*{lastName}" /></td>
+						<td>Sex</td>
+						<td><select th:field="*{sex}" class="font-black">
+								<option class="font-black" value="Male">Male</option>
+								<option class="font-black" value="Female">Female</option>
+						</select></td>
+					</tr>
+					<tr
+						th:if="${#fields.hasErrors('firstName') or #fields.hasErrors('lastName')}">
+						<td th:if="${#fields.hasErrors('firstName')}"
+							th:errors="*{firstName}" style="color: red;"></td>
+						<td th:if="${not #fields.hasErrors('firstName')}"></td>
+						<td
+							th:if="${#fields.hasErrors('firstName') or #fields.hasErrors('lastName')}"></td>
+						<td th:if="${#fields.hasErrors('lastName')}"
+							th:errors="*{lastName}" style="color: red;"></td>
+					</tr>
+					<tr>
+						<td>Place of Birth</td>
+						<td><input type="text" th:field="*{placeOfBirth}" /></td>
+						<td>Date of Birth</td>
+						<td><input th:field="*{dateOfBirth}" type="text"
+							id="dateOfBirth"></td>
+					</tr>
+					<tr
+						th:if="${#fields.hasErrors('placeOfBirth') or #fields.hasErrors('dateOfBirth')}">
+						<td th:if="${#fields.hasErrors('placeOfBirth')}"
+							th:errors="*{placeOfBirth}" style="color: red;"></td>
+						<td th:if="${not #fields.hasErrors('placeOfBirth')}"></td>
+						<td
+							th:if="${#fields.hasErrors('placeOfBirth') or #fields.hasErrors('dateOfBirth')}"></td>
+						<td th:if="${#fields.hasErrors('dateOfBirth')}"
+							th:errors="*{dateOfBirth}" style="color: red;"></td>
+					</tr>
 
+					<tr>
+						<td>Nationality</td>
+						<td><input type="text" th:field="*{nationality}" /></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('nationality')}">
+						<td th:if="${#fields.hasErrors('nationality')}"
+							th:errors="*{nationality}" style="color: red;"></td>
+					</tr>
+					<tr>
+						<td>Date of Issue</td>
+						<td><input th:field="*{dateOfIssue}" type="text"
+							id="dateOfIssue"></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('dateOfIssue')}">
+						<td th:if="${#fields.hasErrors('dateOfIssue')}"
+							th:errors="*{dateOfIssue}" style="color: red;"></td>
+					</tr>
+					<tr>
+						<td>Date of Expiry</td>
+						<td><input th:field="*{dateOfExpiry}" type="text"
+							id="dateOfExpiry"></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('dateOfExpiry')}">
+						<td th:if="${#fields.hasErrors('dateOfExpiry')}"
+							th:errors="*{dateOfExpiry}" style="color: red;"></td>
+					</tr>
+					<tr>
+						<td>Authority</td>
+						<td><input type="text" th:field="*{authority}" /></td>
+					</tr>
+					<tr th:if="${#fields.hasErrors('authority')}">
+						<td th:if="${#fields.hasErrors('authority')}"
+							th:errors="*{authority}" style="color: red;"></td>
+					</tr>
+					<tr>
+						<td>Image passport to upload</td>
+						<td><img th:attr="src=*{image}" /><input type="hidden"
+							th:field="*{image}" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="file" name="file" accept="image/*"
+							style="background-color: white;"></td>
+					</tr>
+					<tr>
+						<td style="color: red;"><p
+								th:text="(${uploadErr} ? ${uploadErr}:'')"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td class="hright"><button type="submit" class="font-black">Submit</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div>
+				<p th:text="${errMsg2}" style="color: red;" />
+			</div>
 		</div>
-		<div style="color: green;">
-			<p th:text="${message}" />
+		<div>
+			<p th:text="${message}" style="color: green;" />
 		</div>
 	</div>
 </body>

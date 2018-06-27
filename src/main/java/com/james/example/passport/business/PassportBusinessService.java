@@ -30,11 +30,14 @@ public class PassportBusinessService {
 		this.passportRepository = passportRepository;
 	}
 
-	public void create(Passport passport) {
+	public void create(Passport passport) throws IllegalArgumentException {
 		Date dob = createDateFromDateString(passport.getDateOfBirth()); 
 		Date doi = createDateFromDateString(passport.getDateOfIssue()); 
 		Date doe = createDateFromDateString(passport.getDateOfExpiry());
 		
+		if (doi.after(doe)) {
+			throw new IllegalArgumentException("'Date of issue' cannot be after 'Date of Expiry'.");
+		}
 				
 		PassportEntity entity = new PassportEntity(passport.getDocNo(), 
 				passport.getFirstName(), passport.getLastName(), passport.getPlaceOfBirth(), passport.getNationality(),
