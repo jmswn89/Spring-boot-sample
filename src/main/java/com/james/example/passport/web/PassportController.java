@@ -122,7 +122,7 @@ public class PassportController {
 		return "update";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/passport/update")
+	@RequestMapping(method=RequestMethod.PUT, value="/passport/update")
 	public String updatePassport(@RequestParam("file") MultipartFile file, @Valid @ModelAttribute Passport passport,
 			                     BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) { 
@@ -173,7 +173,7 @@ public class PassportController {
 		return "delete";
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/passport/delete")
+	@RequestMapping(method=RequestMethod.DELETE, value="/passport/delete")
 	public String deletePassport(@RequestParam("docNo") String docNo, @ModelAttribute Passport passport,
 			                     BindingResult result, Model model) throws IOException {
 		String kw = docNo.trim();

@@ -50,7 +50,7 @@
 		</form>
 		<div th:if="${errMsg == '' or uploadErr != null or errMsg2 != null}">
 			<form action="#" th:action="@{/passport/update}"
-				th:object="${passport}" method="POST" enctype="multipart/form-data">
+				th:object="${passport}" th:method="put" enctype="multipart/form-data">
 				<table width="100%">
 					<tr>
 						<td width="17%">Passport Number</td>

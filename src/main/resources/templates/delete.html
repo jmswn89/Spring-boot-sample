@@ -31,7 +31,7 @@
 		</form>
 
 		<div th:if="${errMsg == ''}">
-			<form action="#" th:action="@{/passport/delete}" method="POST">
+			<form action="#" th:action="@{/passport/delete}" th:method="delete">
 				<table width="100%">
 					<tr>
 						<td width="20%"><p class="thick">Passport Number</p></td>
