@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.james.example.passport.model.entity.PassportEntity;
 import com.james.example.passport.model.repository.PassportEntityRepository;
@@ -47,6 +48,33 @@ public class PassportBusinessService {
 		this.passportRepository.save(entity);
 	}
 	
+	public void saveChanges(String passportNo, Passport passport) {
+		PassportEntity pe = this.passportRepository.findByDocNo(passportNo);
+		Assert.notNull(pe, "Passport with number " + passportNo + " does not exist in database.");
+		Date dob = createDateFromDateString(passport.getDateOfBirth());
+		Date doi = createDateFromDateString(passport.getDateOfIssue());
+		Date doe = createDateFromDateString(passport.getDateOfExpiry());
+
+		if (doi.after(doe)) {
+			throw new IllegalArgumentException("'Date of issue' cannot be after 'Date of Expiry'.");
+		}
+
+		pe.setFirstName(passport.getFirstName());
+		pe.setLastName(passport.getLastName());
+		pe.setPlaceOfBirth(passport.getPlaceOfBirth());
+		pe.setNationality(passport.getNationality());
+		pe.setSex(passport.getSex());
+		pe.setAuthority(passport.getAuthority());
+		pe.setDateOfBirth(new java.sql.Date(dob.getTime()));
+		pe.setDateOfIssue(new java.sql.Date(doi.getTime()));
+		pe.setDateOfExpiry(new java.sql.Date(doe.getTime()));
+		pe.setImage(passport.getImage());
+		pe.setImageFilename(passport.getImageFilename());
+		pe.setImageContentType(passport.getImageContentType());
+
+		this.passportRepository.save(pe);
+	}
+
 	public Passport findByPassportDocNo(String docNo) {
 		Passport p = null;
 		PassportEntity pe = this.passportRepository.findByDocNo(docNo);

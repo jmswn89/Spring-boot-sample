@@ -133,7 +133,8 @@ public class PassportController {
 			return "update";
 		}
 
-		if (passport.getDocNo().trim().isEmpty()) {
+		String passportNo = passport.getDocNo().trim();
+		if (passportNo.isEmpty()) {
 			result.addError(new ObjectError("docNo", "Passport number cannot be empty."));
 			return "update";
 		}
@@ -155,7 +156,7 @@ public class PassportController {
 		}
 
 		try {
-			this.passportService.create(passport);
+			this.passportService.saveChanges(passportNo, passport);
 		}
 		catch (IllegalArgumentException ex) {
 			model.addAttribute("errMsg2", ex.getMessage());
